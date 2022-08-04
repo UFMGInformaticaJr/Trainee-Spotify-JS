@@ -37,4 +37,5 @@ Rota para fazer login no sistema, ou seja, obter o token JWT necessário para au
    - **Status**: 200
    - **Conteúdo**: `{ id, email }`
 
+**...**
    
