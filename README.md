@@ -1,5 +1,5 @@
-# Gabarito do Programa Trainee 2022.2 - Back-end
-Esse é o gabarito do projeto da trilha do back-end do Programa Trainee. Nesse repositório encontra-se a maneira esperada de implementar a tarefa segundo os seguintes requisitos:
+# Gabarito do Processo Trainee 2022.2 - Back-end
+Esse é o gabarito do projeto da trilha do back-end do Processo Trainee. Nesse repositório encontra-se a maneira esperada de implementar a tarefa segundo os seguintes requisitos:
 
 ## Entidades:
       USUARIO:
