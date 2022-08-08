@@ -10,6 +10,7 @@ Esse é o gabarito do projeto da trilha do back-end do Processo Trainee. Nesse r
          Role: ENUM (Administrador, Ouvinte)
       MUSICA:
          ID: INTEGER, PK
+         Foto: STRING
          Titulo: STRING
          Artista: INTEGER, FK
          Categoria: STRING
