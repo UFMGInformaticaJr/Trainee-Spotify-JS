@@ -14,7 +14,7 @@ app.use(cors(
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-require('./auth');
+require('./auth.js');
 
 app.use(express.urlencoded({
   extended: true,
@@ -22,10 +22,17 @@ app.use(express.urlencoded({
 
 app.use(express.json());
 
-const usersRouter = require('../users/controllers');
+const usersRouter = require('../src/domains/users/controllers');
 app.use('/api/users', usersRouter);
 
-const errorHandler = require('../middlewares/error-handler');
+const artistRouter = require('../src/domains/artists/controllers');
+app.use('/api/artists', artistRouter);
+
+const songsRouter = require('../src/domains/songs/controllers');
+app.use('api/songs', songsRouter);
+
+
+const errorHandler = require('../src/middlewares/error-handler');
 app.use(errorHandler);
 
 module.exports = app;
