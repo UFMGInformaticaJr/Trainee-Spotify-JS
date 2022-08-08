@@ -1,9 +1,8 @@
 const passport = require('passport');
-const {JsonWebTokenError} = require('jsonwebtoken');
 const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const bcrypt = require('bcrypt');
-const User = require('../users/models/User');
+const User = require('../src/domains/users/models/User.js');
 const NotAuthorizedError = require('../errors/NotAuthorizedError');
 
 passport.use(
@@ -58,6 +57,12 @@ passport.use(
     },
     async (req, jwtPayload, done) => {
       try {
+        const user = await User.findByPk(jwtPayload.user.id);
+
+        if(!user){
+          throw new NotAuthorizedError('Usuário inválido');
+        }
+
         return done(null, jwtPayload.user);
       } catch (error) {
         return done(error, false);
