@@ -1,6 +1,6 @@
-const sequelize = require('../../database');
+const sequelize = require('../../../../database/index.js');
 const {DataTypes} = require('sequelize');
-const funcaoUsuario = require('../../constantes/user/funcaoUsuario');
+const userRoles = require('../../../../constants/userRoles.js');
 
 const User = sequelize.define('Users', {
   id: {
@@ -10,14 +10,6 @@ const User = sequelize.define('Users', {
     allowNull: false,
   },
   name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  cpf: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  telefone: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -32,13 +24,8 @@ const User = sequelize.define('Users', {
   },
   role: {
     type: DataTypes.ENUM,
-    values: [funcaoUsuario.ADMIN, funcaoUsuario.COLAB_EDITOR, funcaoUsuario.COLAB_READ],
+    values: [userRoles.admin, userRoles.user],
     allowNull: false,
-  },
-  resetPassword: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
   },
 });
 
