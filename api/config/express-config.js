@@ -22,17 +22,19 @@ app.use(express.urlencoded({
 
 app.use(express.json());
 
-const usersRouter = require('../src/domains/users/controllers');
+const usersRouter = require('../src/domains/users/controllers/index.js');
 app.use('/api/users', usersRouter);
 
-const artistRouter = require('../src/domains/artists/controllers');
-app.use('/api/artists', artistRouter);
+const artistsRouter = require('../src/domains/artists/controllers/index.js');
+app.use('/api/artists', artistsRouter);
 
-const songsRouter = require('../src/domains/songs/controllers');
-app.use('api/songs', songsRouter);
+const songsRouter = require('../src/domains/songs/controllers/index.js');
+app.use('/api/songs', songsRouter);
 
+const usersSongsRouter = require('../src/domains/UserSong/controllers/index.js');
+app.use('/api/user_songs', usersSongsRouter);
 
-const errorHandler = require('../src/middlewares/error-handler');
+const errorHandler = require('../src/middlewares/error-handler.js');
 app.use(errorHandler);
 
 module.exports = app;
