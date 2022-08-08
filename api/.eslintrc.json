@@ -48,6 +48,15 @@
                 "afterColon": true
             }
         ],
+        "array-bracket-spacing": [
+            "error",
+            "never"
+        ],
+        "block-spacing": [
+            "error",
+            "always"
+        ],
+        "no-undef": "off",
         "no-trailing-spaces": "error"
     }
 }
