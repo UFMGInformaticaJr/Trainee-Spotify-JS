@@ -38,13 +38,7 @@ router.get('/',
   jwtMiddleware,
   requestFilter('query', opcoesFiltro),
   async (req, res, next) => {
-    try {
-      const options = req.query;
-      const usersAndCount = await GetUser.getAllUsersByPage(options);
-      res.status(200).json(usersAndCount);
-    } catch (error) {
-      next(error);
-    }
+    await UserController.GetAllUsers(req, res, next);
   },
 );
 
@@ -224,3 +218,13 @@ router.delete('/',
   });
 
 module.exports = router;
+async function newFunction(req, res, next) {
+  try {
+    const options = req.query;
+    const usersAndCount = await GetUser.getAllUsersByPage(options);
+    res.status(200).json(usersAndCount);
+  } catch (error) {
+    next(error);
+  }
+}
+
