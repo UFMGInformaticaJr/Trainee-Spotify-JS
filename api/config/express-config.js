@@ -31,7 +31,7 @@ app.use('/api/artists', artistsRouter);
 const songsRouter = require('../src/domains/songs/controllers/index.js');
 app.use('/api/songs', songsRouter);
 
-const usersSongsRouter = require('../src/domains/UserSong/controllers/index.js');
+const usersSongsRouter = require('../src/domains/userSongs/controllers/index.js');
 app.use('/api/user_songs', usersSongsRouter);
 
 const errorHandler = require('../src/middlewares/error-handler.js');
