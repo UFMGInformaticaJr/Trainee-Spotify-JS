@@ -33,7 +33,7 @@ class SongService {
     return song;
   }
 
-  async updateSongInfo(id, body) {
+  async update(id, body) {
     const song = await Song.findByPk(id);
     if (!song) {
       throw new QueryError(`Não há uma música com o ID ${song.id}!`);
