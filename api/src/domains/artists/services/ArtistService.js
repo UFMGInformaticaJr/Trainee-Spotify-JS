@@ -30,7 +30,7 @@ class ArtistService {
     return artist;
   }
 
-  async updateInfo(id, body){
+  async update(id, body){
     const artist = await Artist.findByPk(id, {attributes:
         {
           exclude: ['createdAt', 'updatedAt'],
@@ -55,4 +55,4 @@ class ArtistService {
 
 }
 
-module.exports = ArtistService;
+module.exports = new ArtistService;
