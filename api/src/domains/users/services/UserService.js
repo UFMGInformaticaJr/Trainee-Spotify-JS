@@ -1,94 +1,95 @@
 const bcrypt = require('bcrypt');
-const User = require('../models/User');
-const PermissionError = require('../../errors/PermissionError');
-const InvalidRouteError = require('../../errors/InvalidRouteError');
-const QueryError = require('../../errors/QueryError');
+const User = require('../models/User.js');
+const userRoles = require('../../../../constants/userRoles.js');
+const NotAuthorizedError = require('../../../../errors/NotAuthorizedError.js');
+const PermissionError = require('../../../../errors/PermissionError.js');
+const QueryError = require('../../../../errors/QueryError.js');
 
-class UserCrud {
-  async createUser(body) {
+class UserService {
+  async encryptPassword(user) {
     const saltRounds = 10;
-    const user = {
-      name: body.name,
-      cpf: body.cpf,
-      telefone: body.telefone,
-      email: body.email,
-      password: body.password,
-      role: body.role,
-    };
     user.password = await bcrypt.hash(user.password, saltRounds);
-
-    await User.create(user);
   }
 
-  async updateUserInfo(id, body) {
-    const user = await User.findByPk(id);
-    if (user !== null) {
-      await user.update(body);
+  async create(body) {
+    const user = await User.findOne({where: {email: body.email}});
+    if (user) {
+      throw new QueryError('E-mail já cadastrado!');
     } else {
-      throw new QueryError(`Não há um usuário com o ID ${user.id}!`);
+      const user = {
+        name: body.name,
+        email: body.email,
+        password: body.password,
+        role: body.role,
+      };
+
+      await this.encryptPassword(user);
+
+      await User.create(user);
     }
   }
 
-  async updateUserPassword(reqUser, body) {
-    if (reqUser.resetPassword) {
-      const user = await User.findByPk(reqUser.id);
+  async getAll() {
+    const users = await User.findAll({
 
-      if (body.novaSenha === body.confirmacaoNovaSenha) {
-        const saltRounds = 10;
+      attributes: ['id', 'nome', 'email', 'role'],
 
-        const hashedNewPassword = await bcrypt.hash(body.novaSenha, saltRounds);
+    });
 
-        await user.update({resetPassword: false, password: hashedNewPassword});
-      } else throw new Error('Senhas não coincidem.');
-    } else throw new InvalidRouteError('Voce deve resetar sua senha antes');
+    if (!users) {
+      throw new QueryError('Não há nenhum usuário cadastrado');
+    } else {
+      return users;
+    }
   }
 
-  async resetUserPassword(body) {
-    const user = await User.findByPk(body.targetId);
+  async getById(id) {
+    const user = await User.findByPk(id, {raw: true, attributes:
+      {
+        exclude: ['senha', 'createdAt', 'updatedAt'],
+      }});
 
-    const saltRounds = 10;
-    const hashedNewPassword = await bcrypt.hash(body.newPassword, saltRounds);
-
-    await user.update({resetPassword: true, password: hashedNewPassword});
+    if (user) {
+      return user;
+    }
+    throw new QueryError(`Não há um usuário com o ID ${user.id}!`);
   }
 
-  async deactivateUser(reqUser, email) {
-    if (email === reqUser.email) {
-      throw new PermissionError('Você não pode desativar a si mesmo!');
-    }
-    const user = await User.findOne({where: {email}, paranoid: false});
+  async update(id, body, loggedUser){
+    const user = await User.findByPk(id);
 
-    if (user.deletedAt) {
-      throw new PermissionError('Este usuário já está desativado!');
+    if (!user) {
+      throw new QueryError('Usuário não encontrado');
     }
 
-    await user.destroy();
+    if (loggedUser.role != userRoles.admin && loggedUser.id != id) {
+      throw new NotAuthorizedError('Você não tem permissão para editar outro usuário!');
+    }
+
+    if (body.role && loggedUser.role != userRoles.admin) {
+      throw new NotAuthorizedError('Você não tem permissão para editar seu cargo');
+    }
+
+    if (body.senha) {
+      this.encryptPassword(user);
+    }
+
+    await user.update(body);
   }
 
-  async activateUser(reqUser, email) {
-    if (email === reqUser.email) {
-      throw new PermissionError('Você não pode ativar a si mesmo!');
+  async delete(id, idReqUser) {
+    if (idReqUser === id) {
+      throw new PermissionError('Não é possível deletar o próprio usuário!');
+    } else {
+      const user = await User.findByPk(id);
+
+      if (!user) {
+        throw new QueryError(`Não há um usuário com o ID ${user.id}!`);
+      } else {
+        await user.destroy();
+      }
     }
-    const user = await User.findOne({where: {email}, paranoid: false});
-
-    if (!user.deletedAt) {
-      throw new PermissionError('Este usuário já está ativo!');
-    }
-
-    await user.restore();
-  }
-
-  async Delete(id, user) {
-    // TODO: delete things that are involved with user
-    if (id != user.id) {
-      // Delete User
-      await User.destroy({
-        where: {
-          'id': id,
-        },
-      });
-    } else throw new PermissionError('Você não pode se deletar!');
   }
 }
 
-module.exports = new UserCrud;
+module.exports = new UserService;
