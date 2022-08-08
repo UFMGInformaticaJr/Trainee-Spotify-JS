@@ -6,7 +6,7 @@ const userRoles = require('../../../../constants/userRoles.js');
 
 router.post('/',
   jwtMiddleware,
-  checkRole(userRoles.admin),
+  checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
       await SongService.create(req.body);
@@ -22,8 +22,8 @@ router.get('/',
   async (req, res, next) => {
     try{
       const songs = await SongService.getAll();
-      res.status(statusCodes.accepted).json(songs);
-    }catch (error ){
+      res.status(statusCodes.success).json(songs);
+    }catch (error){
       next(error);
     }
   },
@@ -34,7 +34,7 @@ router.get('/songs/:id',
   async (req, res, next) => {
     try {
       const song = await SongService.getById(req.params.id);
-      res.status(statusCodes.accepted).json(song);
+      res.status(statusCodes.success).json(song);
     } catch (error) {
       next(error);
     }
@@ -43,10 +43,10 @@ router.get('/songs/:id',
 
 router.put('/songs/:id',
   jwtMiddleware,
-  checkRole(userRoles.admin),
+  checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
-      await SongService.updateInfo(req.params.id, req.body);
+      await SongService.update(req.params.id, req.body);
       res.status(statusCodes.noContent).end();
     } catch (error) {
       next(error);
@@ -56,7 +56,7 @@ router.put('/songs/:id',
 
 router.delete('/songs/:id',
   jwtMiddleware,
-  checkRole(userRoles.admin),
+  checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
       await SongService.delete(req.params.id);
@@ -64,4 +64,7 @@ router.delete('/songs/:id',
     } catch (err) {
       next(err);
     }
-  });
+  }
+);
+
+module.exports = router;
