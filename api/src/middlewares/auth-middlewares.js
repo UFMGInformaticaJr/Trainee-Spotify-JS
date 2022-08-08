@@ -1,11 +1,11 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const PermissionError = require('../errors/PermissionError');
+const PermissionError = require('../../errors/PermissionError.js');
 
 function loginMiddleware(req, res, next) {
   passport.authenticate(
     'login',
-    (err, user, info) => {
+    (err, user) => {
       try {
         if (err) {
           if (err instanceof Error) {
@@ -23,10 +23,9 @@ function loginMiddleware(req, res, next) {
 
             const body = {
               id: user.id,
+              name: user.name,
               email: user.email,
               role: user.role,
-              name: user.name,
-              resetPassword: user.resetPassword,
             };
 
             const token = jwt.sign({user: body}, process.env.SECRET_KEY,
@@ -48,7 +47,7 @@ function loginMiddleware(req, res, next) {
 }
 
 function jwtMiddleware(req, res, next) {
-  passport.authenticate('jwt', {session: false}, (error, user, info) => {
+  passport.authenticate('jwt', {session: false}, (error, user) => {
     try {
       if (error) return next(error);
       if (!user) {
@@ -69,7 +68,7 @@ function notLoggedIn(errorMessage) {
       const token = req.cookies['jwt'];
       if (token) {
         jwt.verify(token, process.env.SECRET_KEY,
-          (err, decoded) => {
+          (err) => {
             if (!(err instanceof jwt.TokenExpiredError)) {
               throw new PermissionError(errorMessage ||
                 'Você já está logado no sistema!');
@@ -85,20 +84,16 @@ function notLoggedIn(errorMessage) {
   };
 }
 
-function checkRole(role) {
-  return function(req, res, next) {
+const checkRole = (roles) => {
+  return (req, res, next) => {
     try {
-      if (role === req.user.role) {
-        next();
-      } else {
-        throw new PermissionError(
-          'Você não tem permissão para realizar essa ação!');
-      }
-    } catch (error) {
+      ! roles.includes(req.user.role) ? res.json('Você não possui permissão para realizar essa ação') : next();
+    } catch(error){
       next(error);
     }
+
   };
-}
+};
 
 module.exports = {
   loginMiddleware,
