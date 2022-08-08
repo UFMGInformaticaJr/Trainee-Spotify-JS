@@ -1,45 +1,29 @@
 const {JsonWebTokenError} = require('jsonwebtoken');
-const {MulterError} = require('multer');
-const NotAuthorizedError = require('../errors/NotAuthorizedError');
-const MediaTypeError = require('../errors/MediaTypeError');
-const InvalidParamError = require('../errors/InvalidParamError');
-const TokenError = require('../errors/TokenError');
-const QueryError = require('../errors/QueryError');
-const codigoErro = require('../constantes/middleware/codigoErro');
+const NotAuthorizedError = require('../../errors/NotAuthorizedError.js');
+const InvalidParamError = require('../../errors/InvalidParamError');
+const TokenError = require('../../errors/TokenError');
+const QueryError = require('../../errors/QueryError');
+const statusCodes = require('../../constants/statusCodes.js');
 
-function errorHandler(error, req, res, next) {
+function errorHandler(error, req, res) {
   let message = error.message;
-  let status = 500; // Internal Server Error
-
-  if (error.code === codigoErro.CODIGO_ERRO) {
-    status = 403; // Forbidden
-    message = codigoErro.MENSAGEM_ERRO;
-  }
+  let status = statusCodes.internalServerError;
 
   if (error instanceof JsonWebTokenError ||
     error instanceof NotAuthorizedError) {
-    status = 403; // Forbidden
-  }
-
-  if (error instanceof MulterError) {
-    status = 413; // Payload Too Large
-    message = 'O arquivo não pode passar de 1MB!';
-  }
-
-  if (error instanceof MediaTypeError) {
-    status = 415; // Unsupported Media Type
+    status = statusCodes.forbidden;
   }
 
   if (error instanceof InvalidParamError) {
-    status = 400; // Bad Request
+    status = statusCodes.badRequest;
   }
 
   if (error instanceof TokenError) {
-    status = 404; // Not Found
+    status = statusCodes.notFound;
   }
 
   if (error instanceof QueryError) {
-    status = 406; // Not acceptable
+    status = statusCodes.not; // Not acceptable
   }
 
   console.log(error);
