@@ -3,7 +3,7 @@ const UserSongService = require('../services/UserSongService.js');
 const {jwtMiddleware} = require('../../../middlewares/auth-middlewares');
 const statusCodes = require('../../../../constants/statusCodes.js');
 
-router.post('/songs/:id',
+router.post('/:id',
   jwtMiddleware,
   async (req, res, next) => {
     try {

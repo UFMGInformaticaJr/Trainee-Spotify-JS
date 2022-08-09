@@ -29,7 +29,7 @@ router.get('/',
   },
 );
 
-router.get('/artists/:id',
+router.get('/:id',
   jwtMiddleware,
   checkRole([userRoles.admin]),
   async (req, res, next) => {
@@ -43,7 +43,7 @@ router.get('/artists/:id',
   },
 );
 
-router.put('/artists/:id',
+router.put('/:id',
   jwtMiddleware,
   checkRole([userRoles.admin]),
   async (req, res, next) => {
@@ -57,7 +57,7 @@ router.put('/artists/:id',
   },
 );
 
-router.delete('/artists/:id',
+router.delete('/:id',
   jwtMiddleware,
   checkRole([userRoles.admin]),
   async (req, res, next) => {

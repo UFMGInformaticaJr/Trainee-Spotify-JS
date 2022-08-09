@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 const router = require('express').Router();
 const UserService = require('../services/UserService');
 const {loginMiddleware,
@@ -52,7 +51,7 @@ router.get('/',
 );
 
 
-router.get('/users',
+router.get('/user',
   jwtMiddleware,
   async (req, res, next) => {
     try {
@@ -67,7 +66,7 @@ router.get('/users',
 );
 
 
-router.get('/userss/:id',
+router.get('/:id',
   jwtMiddleware,
   checkRole([userRoles.admin]),
   async (req, res, next) => {
@@ -82,7 +81,7 @@ router.get('/userss/:id',
 );
 
 
-router.put('/users/:id',
+router.put('/:id',
   jwtMiddleware,
   async (req, res, next) => {
     try {
@@ -94,13 +93,12 @@ router.put('/users/:id',
   },
 );
 
-router.delete('/',
+router.delete('/:id',
   jwtMiddleware,
   checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
-      const userId = req.body.id;
-      await UserService.delete(userId, req.user);
+      await UserService.delete(userId, req.params.id);
       res.sendStatus(statusCodes.noContent);
     } catch (err) {
       next(err);
