@@ -52,7 +52,7 @@ router.get('/',
 );
 
 
-router.get('/user',
+router.get('/users',
   jwtMiddleware,
   async (req, res, next) => {
     try {
@@ -67,7 +67,7 @@ router.get('/user',
 );
 
 
-router.get('/user/:id',
+router.get('/userss/:id',
   jwtMiddleware,
   checkRole([userRoles.admin]),
   async (req, res, next) => {
@@ -82,7 +82,7 @@ router.get('/user/:id',
 );
 
 
-router.put('/user/:id',
+router.put('/users/:id',
   jwtMiddleware,
   async (req, res, next) => {
     try {

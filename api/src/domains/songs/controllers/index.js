@@ -29,7 +29,7 @@ router.get('/',
   },
 );
 
-router.get('/songs/:id',
+router.get('/song/:id',
   jwtMiddleware,
   async (req, res, next) => {
     try {
@@ -41,7 +41,7 @@ router.get('/songs/:id',
   },
 );
 
-router.get('/songs/random',
+router.get('/random',
   jwtMiddleware,
   async (req, res, next) => {
     try{
@@ -53,7 +53,7 @@ router.get('/songs/random',
   },
 );
 
-router.put('/songs/:id',
+router.put('/song/:id',
   jwtMiddleware,
   checkRole([userRoles.admin]),
   async (req, res, next) => {

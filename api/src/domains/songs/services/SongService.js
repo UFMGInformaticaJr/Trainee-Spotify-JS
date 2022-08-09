@@ -33,6 +33,14 @@ class SongService {
     return song;
   }
 
+  async getRandomSong() {
+    const songs = await Song.findAll();
+    const randomIndex = Math.floor(Math.random() * songs.length);
+    const song = songs[randomIndex];
+    
+    return song;
+  }
+
   async update(id, body) {
     const song = await Song.findByPk(id);
     if (!song) {
