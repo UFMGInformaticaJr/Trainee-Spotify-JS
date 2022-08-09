@@ -24,6 +24,10 @@ const Song = sequelize.define('Songs', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  ouvinte: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  }
 });
 
 /*
