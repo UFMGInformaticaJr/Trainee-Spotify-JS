@@ -15,6 +15,7 @@ function App() {
   const[img, setImg] = useState(logo);
   const[genrer, setGenrer] = useState('');
   const[title, setTitle] = useState('');
+  const[ouvinte, setOuvinte] = useState('');
 
   function getRandomMusic() {
     api.get('api/songs/songs/random')
@@ -22,6 +23,7 @@ function App() {
         setImg(res.data.cover_image);
         setGenrer(res.data.genre);
         setTitle(res.data.title);
+        setOuvinte(res.data.ouvinte);
       })
       .catch((err) => {
         console.log('Erro: ', err);
@@ -33,15 +35,21 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={img} className="App-logo" alt="logo" />
-        <p>
+       {/*  <p>
           {genrer === ''?
             '' :
             `Gênero: ${genrer}`}
-        </p>
+        </p> */}
         <p>
           {title === ''?
             '':
            `Título: ${title} `}
+
+        </p>
+        <p>
+          {ouvinte === ''?
+            '':
+           `Ouvinte: ${ouvinte} `}
 
         </p>
         <button
