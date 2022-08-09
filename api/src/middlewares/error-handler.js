@@ -23,7 +23,7 @@ function errorHandler(error, req, res) {
   }
 
   if (error instanceof QueryError) {
-    status = statusCodes.not; // Not acceptable
+    status = statusCodes.badRequest;
   }
 
   console.log(error);

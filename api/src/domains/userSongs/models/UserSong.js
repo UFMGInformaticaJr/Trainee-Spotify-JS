@@ -31,7 +31,7 @@ UserSong.belongsTo(Song);
 User.hasMany(UserSong);
 UserSong.belongsTo(User);
 
-UserSong.sync({alter: true, force: false})
+UserSong.sync({alter: false, force: false})
   .then(() => {
     console.log('UserSong table was (re)created');
   })

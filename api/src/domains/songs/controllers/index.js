@@ -41,6 +41,18 @@ router.get('/songs/:id',
   },
 );
 
+router.get('/songs/random',
+  jwtMiddleware,
+  async (req, res, next) => {
+    try{
+      const song = await SongService.getRandomSong();
+      res.status(statusCodes.success).json(song);
+    }catch (error){
+      next(error);
+    }
+  },
+);
+
 router.put('/songs/:id',
   jwtMiddleware,
   checkRole([userRoles.admin]),

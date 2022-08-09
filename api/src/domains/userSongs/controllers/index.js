@@ -3,7 +3,7 @@ const UserSongService = require('../services/UserSongService.js');
 const {jwtMiddleware} = require('../../../middlewares/auth-middlewares');
 const statusCodes = require('../../../../constants/statusCodes.js');
 
-router.post('/song/:id',
+router.post('/songs/:id',
   jwtMiddleware,
   async (req, res, next) => {
     try {
@@ -15,7 +15,7 @@ router.post('/song/:id',
   },
 );
 
-router.get('/user/:id',
+router.get('/users/:id',
   jwtMiddleware,
   async (req, res, next) => {
     try{
@@ -27,7 +27,7 @@ router.get('/user/:id',
   },
 );
 
-router.get('/song/:id',
+router.get('/songs/:id',
   jwtMiddleware,
   async (req, res, next) => {
     try {

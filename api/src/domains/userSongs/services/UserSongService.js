@@ -15,33 +15,44 @@ class UserSongService  {
   async getAllSongsByUser(userId){
     const allSongs = await Song.findAll({
       attributes: {
-        exclude: ['createdAt', 'updatedAt']
+        exclude: ['createdAt', 'updatedAt'],
       },
       include: {
         model: User,
         where: {
-          userId,
+          id: userId,
         },
+
+        through: {
+          attributes: [],
+        },
+
       }
     });
+
     return allSongs;
   }
 
   async getAllUsersBySong(songId){
     const allUsers = await User.findAll({
       attributes: {
-        exclude: ['createdAt', 'updatedAt']
+        exclude: ['createdAt', 'updatedAt'],
       },
       include: {
         model: Song,
         where: {
-          songId,
+          id: songId,
         },
+
+        through: {
+          attributes: [],
+        },
+
       }
     });
+
     return allUsers;
   }
-
 
 }
 

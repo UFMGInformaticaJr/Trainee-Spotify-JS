@@ -17,7 +17,7 @@ const Song = sequelize.define('Songs', {
     allowNull: false,
   },
   artist: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   genre: {
