@@ -17,7 +17,7 @@ function App() {
   const[title, setTitle] = useState('');
 
   function getRandomMusic() {
-    api.get('api/songs/random')
+    api.get('api/songs/songs/random')
       .then((res) => {
         setImg(res.data.cover_image);
         setGenrer(res.data.genre);
