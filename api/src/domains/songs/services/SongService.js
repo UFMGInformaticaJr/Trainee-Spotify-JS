@@ -38,7 +38,7 @@ class SongService {
     const songs = await Song.findAll();
     const randomIndex = Math.floor(Math.random() * songs.length);
     const song = songs[randomIndex];
-    
+
     return song;
   }
 
