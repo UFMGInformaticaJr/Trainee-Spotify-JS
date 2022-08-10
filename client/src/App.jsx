@@ -11,9 +11,10 @@ const api = axios.create({
 });
 
 function App() {
-  
+  const spotifyLogo = 'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png';
   const[img, setImg] = useState(logo);
-  const[genrer, setGenrer] = useState('');
+  // const[genre, setGenre] = useState('');
+  const[artist, setArtist] = useState('');
   const[title, setTitle] = useState('');
   const[ouvinte, setOuvinte] = useState('');
 
@@ -21,7 +22,8 @@ function App() {
     api.get('api/songs/songs/random')
       .then((res) => {
         setImg(res.data.cover_image);
-        setGenrer(res.data.genre);
+        // setGenrer(res.data.genre);
+        setArtist(res.data.artist);
         setTitle(res.data.title);
         setOuvinte(res.data.ouvinte);
       })
@@ -34,16 +36,23 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={img} className="App-logo" alt="logo" />
-       {/*  <p>
-          {genrer === ''?
+        <img src={spotifyLogo} className="spotify-logo" alt="logo" />
+        <img src={img} className="App-logo" alt="capa" />
+        {/* <p>
+          {genre === ''?
             '' :
-            `Gênero: ${genrer}`}
+            `Gênero: ${genre}`}
         </p> */}
         <p>
           {title === ''?
             '':
            `Título: ${title} `}
+
+        </p>
+        <p>
+          {artist === ''?
+            '':
+           `Artista: ${artist} `}
 
         </p>
         <p>
@@ -58,7 +67,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Nova Música
+          🔀
         </button>
       </header>
     </div>

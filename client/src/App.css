@@ -5,6 +5,7 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  margin-bottom: 1em;
 }
 
 .App-header {
@@ -18,12 +19,29 @@
   color: white;
 }
 
+.spotify-logo {
+  width: 10em;
+  margin: 1em;
+}
+
+p {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
 button {
   width: 150px;
-  height: 50px;
-
-  font-size: 1.1rem;
-}
-button:hover {
+  height: 40px;
+  margin-top: 1em;
+  padding-bottom: 0.2em;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 2em;
   cursor: pointer;
+  font-size: 1.3rem;
+}
+
+button:hover {
+  background-color: #45A049;
+  transition: 0.5s;
 }
