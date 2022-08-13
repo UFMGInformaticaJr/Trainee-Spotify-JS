@@ -8,7 +8,7 @@ class SongService {
       cover_image: body.cover_image,
       artist: body.artist,
       genre: body.genre,
-      ouvinte: body.ouvinte,
+      listener: body.listener,
     };
 
     await Song.create(song);

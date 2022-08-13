@@ -42,6 +42,7 @@ router.get('/:id',
 );
 
 router.get('/songs/random',
+  jwtMiddleware,
   async (req, res, next) => {
     try{
       const song = await SongService.getRandomSong();

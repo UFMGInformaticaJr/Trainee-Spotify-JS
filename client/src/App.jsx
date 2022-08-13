@@ -16,16 +16,16 @@ function App() {
   // const[genre, setGenre] = useState('');
   const[artist, setArtist] = useState('');
   const[title, setTitle] = useState('');
-  const[ouvinte, setOuvinte] = useState('');
+  const[listener, setListener] = useState('');
 
   function getRandomMusic() {
     api.get('api/songs/songs/random')
       .then((res) => {
         setImg(res.data.cover_image);
-        // setGenrer(res.data.genre);
+        // setGenre(res.data.genre);
         setArtist(res.data.artist);
         setTitle(res.data.title);
-        setOuvinte(res.data.ouvinte);
+        setListener(res.data.listener);
       })
       .catch((err) => {
         console.log('Erro: ', err);
@@ -56,9 +56,9 @@ function App() {
 
         </p>
         <p>
-          {ouvinte === ''?
+          {listener === ''?
             '':
-           `Ouvinte: ${ouvinte} `}
+           `Ouvinte: ${listener} `}
 
         </p>
         <button

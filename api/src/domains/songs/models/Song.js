@@ -24,7 +24,7 @@ const Song = sequelize.define('Songs', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  ouvinte: {
+  listener: {
     type: DataTypes.STRING,
     allowNull: false,
   }
