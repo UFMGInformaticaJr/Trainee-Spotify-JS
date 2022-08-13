@@ -14,8 +14,6 @@ app.use(cors(
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-require('./auth.js');
-
 app.use(express.urlencoded({
   extended: true,
 }));

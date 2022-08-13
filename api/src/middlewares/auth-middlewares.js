@@ -1,71 +1,63 @@
-const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const User = require('../domains/users/models/User.js');
 const PermissionError = require('../../errors/PermissionError.js');
+const statusCodes = require('../../constants/statusCodes.js');
 
-function loginMiddleware(req, res, next) {
-  passport.authenticate(
-    'login',
-    (err, user) => {
-      try {
-        if (err) {
-          if (err instanceof Error) {
-            return next(err);
-          } else {
-            return res.status(400).json(err);
-          }
-        }
+function signJWT(user, res) {
+  const body = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
 
-        req.login(
-          user,
-          {session: false},
-          (error) => {
-            if (error) next(error);
+  const token = jwt.sign({ user: body }, process.env.SECRET_KEY,
+    { expiresIn: process.env.JWT_EXPIRATION });
 
-            const body = {
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              role: user.role,
-            };
-
-            const token = jwt.sign({user: body}, process.env.SECRET_KEY,
-              {expiresIn: process.env.JWT_EXPIRATION});
-
-            // Enviando Cookie
-            res.cookie('jwt', token, {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === 'production',
-            });
-            res.status(204).end();
-          },
-        );
-      } catch (error) {
-        next(error);
-      }
-    },
-  )(req, res, next);
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+  });
 }
 
-function jwtMiddleware(req, res, next) {
-  passport.authenticate('jwt', {session: false}, (error, user) => {
-    try {
-      if (error) return next(error);
-      if (!user) {
-        throw new PermissionError(
-          'Você precisa estar logado para realizar essa ação!');
+function cookieExtractor(req) {
+  let token = null;
+
+  if (req && req.cookies) {
+    token = req.cookies['jwt'];
+  }
+
+  return token;
+}
+
+async function loginMiddleware(req, res, next) {
+  try {
+    const user = await User.findOne({where: {email: req.body.email}});
+    if (!user) {
+      throw new PermissionError('E-mail e/ou senha incorretos!');
+    } else {
+      const matchingPassword = await bcrypt.compare(req.body.password, user.password);
+      if (!matchingPassword) {
+        throw new PermissionError('E-mail e/ou senha incorretos!');
       }
-      req.user = user;
-      next();
-    } catch (error) {
-      next(error);
     }
-  })(req, res, next);
+
+    signJWT(user, res);
+
+    res.status(statusCodes.noContent).end();
+  } catch (error) {
+    next(error);
+  }
 }
+
+
 
 function notLoggedIn(errorMessage) {
   return (req, res, next) => {
     try {
-      const token = req.cookies['jwt'];
+      const token = cookieExtractor(req);
+
       if (token) {
         jwt.verify(token, process.env.SECRET_KEY,
           (err) => {
@@ -84,6 +76,24 @@ function notLoggedIn(errorMessage) {
   };
 }
 
+function jwtMiddleware(req, res, next) {
+  try {
+    const token = cookieExtractor(req);
+    if (token) {
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      req.user = decoded.user;
+    }
+
+    if (!req.user) {
+      throw new PermissionError(
+        'Você precisa estar logado para realizar essa ação!');
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
 const checkRole = (roles) => {
   return (req, res, next) => {
     try {
@@ -97,7 +107,7 @@ const checkRole = (roles) => {
 
 module.exports = {
   loginMiddleware,
+  notLoggedIn,
   jwtMiddleware,
   checkRole,
-  notLoggedIn,
 };

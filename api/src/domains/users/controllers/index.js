@@ -9,12 +9,10 @@ const statusCodes = require('../../../../constants/statusCodes.js');
 
 router.post('/login', notLoggedIn(), loginMiddleware);
 
-router.get('/logout',
+router.post('/logout',
   jwtMiddleware,
   async (req, res, next) => {
     try {
-
-      req.logout();
       res.clearCookie('jwt');
       res.status(statusCodes.noContent).end();
     } catch (error) {
