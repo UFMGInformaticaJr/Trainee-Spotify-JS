@@ -17,8 +17,10 @@ function signJWT(user, res) {
 
   res.cookie('jwt', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV !== 'development',
   });
+
+
 }
 
 function cookieExtractor(req) {
@@ -80,6 +82,8 @@ function jwtMiddleware(req, res, next) {
   try {
     const token = cookieExtractor(req);
     if (token) {
+      // Aqui deveríamos checar se o token está na blacklist e se sim, retornar um erro.
+
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
       req.user = decoded.user;
     }
