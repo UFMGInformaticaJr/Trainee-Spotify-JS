@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const {JsonWebTokenError} = require('jsonwebtoken');
 const NotAuthorizedError = require('../../errors/NotAuthorizedError.js');
 const InvalidParamError = require('../../errors/InvalidParamError');
@@ -5,7 +6,7 @@ const TokenError = require('../../errors/TokenError');
 const QueryError = require('../../errors/QueryError');
 const statusCodes = require('../../constants/statusCodes.js');
 
-function errorHandler(error, req, res) {
+function errorHandler(error, req, res, next) {
   let message = error.message;
   let status = statusCodes.internalServerError;
 
