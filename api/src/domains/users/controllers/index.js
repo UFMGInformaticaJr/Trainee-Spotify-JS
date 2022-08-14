@@ -34,8 +34,6 @@ router.post('/',
   },
 );
 
-
-
 router.get('/',
   jwtMiddleware,
   async (req, res, next) => {
