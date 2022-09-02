@@ -78,7 +78,7 @@ class UserService {
   }
 
   async delete(id, idReqUser) {
-    if (idReqUser === id) {
+    if (idReqUser == id) {
       throw new PermissionError('Não é possível deletar o próprio usuário!');
     } else {
       const user = await User.findByPk(id);
