@@ -96,7 +96,7 @@ router.delete('/:id',
   async (req, res, next) => {
     try {
       await UserService.delete(req.params.id, req.user.id);
-      res.sendStatus(statusCodes.noContent);
+      res.status(statusCodes.noContent).end();
     } catch (err) {
       next(err);
     }
