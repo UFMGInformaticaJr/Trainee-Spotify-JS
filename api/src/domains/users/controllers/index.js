@@ -13,6 +13,7 @@ router.post('/logout',
   jwtMiddleware,
   async (req, res, next) => {
     try {
+      // Aqui deveríamos adicionar o cookie em uma blacklist
       res.clearCookie('jwt');
       res.status(statusCodes.noContent).end();
     } catch (error) {

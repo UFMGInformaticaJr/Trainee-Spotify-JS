@@ -61,7 +61,9 @@ function notLoggedIn(errorMessage) {
       const token = cookieExtractor(req);
 
       if (token) {
-        jwt.verify(token, process.env.SECRET_KEY,
+        jwt.verify(
+          token,
+          process.env.SECRET_KEY,
           (err) => {
             if (!(err instanceof jwt.TokenExpiredError)) {
               throw new PermissionError(errorMessage ||
