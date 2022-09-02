@@ -84,7 +84,7 @@ class UserService {
       const user = await User.findByPk(id);
 
       if (!user) {
-        throw new QueryError(`Não há um usuário com o ID ${user.id}!`);
+        throw new QueryError(`Não há um usuário com o ID ${id}!`);
       } else {
         await user.destroy();
       }
