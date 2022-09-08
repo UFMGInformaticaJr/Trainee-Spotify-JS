@@ -1,5 +1,6 @@
 const sequelize = require('../../../../database');
 const {DataTypes} = require('sequelize');
+const Artist = require('../../artists/models/Artist');
 
 const Song = sequelize.define('Songs', {
   id: {
@@ -16,18 +17,22 @@ const Song = sequelize.define('Songs', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  artist: {
-    type: DataTypes.STRING,
+  artist_id: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   genre: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  listener: {
-    type: DataTypes.STRING,
-    allowNull: false,
   }
+});
+
+Song.belongsTo(Artist, {
+  foreignKey: 'artist_id',
+});
+
+Artist.hasMany(Song, {
+  foreignKey: 'artist_id',
 });
 
 /*
