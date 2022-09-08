@@ -6,7 +6,6 @@ const userRoles = require('../../../../constants/userRoles.js');
 
 router.post('/',
   jwtMiddleware,
-  checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
       await SongService.create(req.body);
@@ -41,7 +40,7 @@ router.get('/:id',
   },
 );
 
-router.get('/songs/random',
+router.get('/song/random',
   jwtMiddleware,
   async (req, res, next) => {
     try{
@@ -72,7 +71,7 @@ router.delete('/:id',
   async (req, res, next) => {
     try {
       await SongService.delete(req.params.id);
-      res.sendStatus(statusCodes.noContent);
+      res.status(statusCodes.noContent).end();
     } catch (err) {
       next(err);
     }

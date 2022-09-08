@@ -6,11 +6,10 @@ const statusCodes = require('../../../../constants/statusCodes.js');
 
 router.post('/',
   jwtMiddleware,
-  checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
       await ArtistService.create(req.body);
-      res.status(statusCodes.noContent).end();
+      res.status(statusCodes.created).end();
     } catch (error) {
       next(error);
     }
@@ -64,7 +63,7 @@ router.delete('/:id',
     try {
       await ArtistService.delete(req.params.id);
 
-      res.sendStatus(statusCodes.success);
+      res.status(statusCodes.success).end();
     } catch (err) {
       next(err);
     }

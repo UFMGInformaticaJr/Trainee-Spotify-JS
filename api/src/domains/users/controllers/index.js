@@ -24,11 +24,10 @@ router.post('/logout',
 
 router.post('/',
   jwtMiddleware,
-  checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
       await UserService.create(req.body);
-      res.status(statusCodes.noContent).end();
+      res.status(statusCodes.created).end();
     } catch (error) {
       next(error);
     }

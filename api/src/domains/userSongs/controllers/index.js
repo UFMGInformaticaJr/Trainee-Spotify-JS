@@ -44,7 +44,7 @@ router.delete('/songs/:id',
   async (req, res, next) => {
     try {
       await SongService.delete(req.params.id);
-      res.sendStatus(statusCodes.noContent);
+      res.status(statusCodes.noContent).end();
     } catch (err) {
       next(err);
     }
