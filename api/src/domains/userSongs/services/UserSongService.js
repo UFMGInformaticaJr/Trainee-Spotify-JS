@@ -9,7 +9,6 @@ class UserSongService  {
     const user = await UserService.getById(userId);
     const song = await SongService.getById(songId);
     await song.addUser(user.id);
-
   }
 
   async getAllSongsByUser(userId){
@@ -40,15 +39,15 @@ class UserSongService  {
       },
       include: {
         model: Song,
+
         where: {
           id: songId,
         },
-
         through: {
           attributes: [],
         },
 
-      }
+      },
     });
 
     return allUsers;

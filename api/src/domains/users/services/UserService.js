@@ -32,7 +32,7 @@ class UserService {
   async getAll() {
     const users = await User.findAll({
 
-      attributes: ['id', 'nome', 'email', 'role'],
+      attributes: ['id', 'name', 'email', 'role'],
 
     });
 
@@ -46,20 +46,20 @@ class UserService {
   async getById(id) {
     const user = await User.findByPk(id, {raw: true, attributes:
       {
-        exclude: ['senha', 'createdAt', 'updatedAt'],
+        exclude: ['password', 'createdAt', 'updatedAt'],
       }});
 
     if (user) {
       return user;
     }
-    throw new QueryError(`Não há um usuário com o ID ${user.id}!`);
+    throw new QueryError(`Não há um usuário com o ID ${id}!`);
   }
 
   async update(id, body, loggedUser){
     const user = await User.findByPk(id);
 
     if (!user) {
-      throw new QueryError('Usuário não encontrado');
+      throw new QueryError(`Não há um usuário com o ID ${id}!`);
     }
 
     if (loggedUser.role != userRoles.admin && loggedUser.id != id) {

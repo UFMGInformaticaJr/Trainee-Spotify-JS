@@ -24,7 +24,7 @@ class ArtistService {
     const artist = await Artist.findByPk(id);
 
     if(!artist){
-      throw new QueryError('Artista não encontrado!');
+      throw new QueryError(`Não há um artista com o ID ${id}!`);
     }
 
     return artist;
@@ -37,7 +37,7 @@ class ArtistService {
         }});
 
     if(!artist){
-      throw new QueryError('Artista não encontrado!');
+      throw new QueryError(`Não há um artista com o ID ${id}!`);
     }
 
     await artist.update(body);
@@ -47,7 +47,7 @@ class ArtistService {
     const artist = await Artist.findByPk(id);
 
     if(!artist){
-      throw new QueryError('Artista não encontrado!');
+      throw new QueryError(`Não há um artista com o ID ${id}!`);
     }
 
     await artist.destroy();
