@@ -190,7 +190,7 @@ Rota para retornar a música com ID passado por parâmetro.
    - **Status**: 200
    - **Conteúdo**: `{ title, cover_image, artist, genre }`
 
-### Random
+### Get Random
 Rota para retornar uma música aleatória do banco de dados.
 
 - **URL:** localhost:3030/api/songs/songs/random
@@ -201,6 +201,19 @@ Rota para retornar uma música aleatória do banco de dados.
 - **Resposta de sucesso:**
    - **Status**: 200
    - **Conteúdo**: `{ title, cover_image, artist, genre }`
+
+### Get Songs By Artist
+Rota para retornar todas as músicas do artista com ID passado como parâmetro.
+
+- **URL:** localhost:3030/api/songs/artist/:id
+- **Método:** `GET`
+- **URL params:** 
+   - `id=[integer]`
+- **Data params:** Não
+- **Autenticação:** Sim
+- **Resposta de sucesso:**
+   - **Status**: 200
+   - **Conteúdo**: `[{ title, cover_image, artist, genre }]`   
 
 ### Update Por ID
 Rota para editar música com ID passado por parâmetro.
@@ -242,6 +255,7 @@ Rota para criar artista no banco de dados.
 - **Data params:**
    - `name=[string]`
    - `nationality=[string]`
+   - `image=[string]`
 - **Autenticação:** Sim
 - **Resposta de sucesso:**
    - **Status**: 201
@@ -257,7 +271,7 @@ Rota para retornar todos os artistas no banco de dados.
 - **Autenticação:** Sim
 - **Resposta de sucesso:**
    - **Status**: 200
-   - **Conteúdo**: `[{ name, nationality}]`
+   - **Conteúdo**: `[{ name, nationality, image}]`
 
 ### Get Por ID
 Rota para retornar o artista com ID passado por parâmetro.
@@ -270,7 +284,7 @@ Rota para retornar o artista com ID passado por parâmetro.
 - **Autenticação:** Sim
 - **Resposta de sucesso:**
    - **Status**: 200
-   - **Conteúdo**: `{ name, nationality }`
+   - **Conteúdo**: `{ name, nationality, image }`
 
 ### Update Por ID
 Rota para editar artista com ID passado por parâmetro.
@@ -282,6 +296,7 @@ Rota para editar artista com ID passado por parâmetro.
 - **Data params:**
    - `name=[string] (opcional)`
    - `nationality=[string] (opcional)`
+   - `image=[string] (opcional)`
 - **Autenticação:** Sim
 - **Resposta de sucesso:**
    - **Status**: 204
