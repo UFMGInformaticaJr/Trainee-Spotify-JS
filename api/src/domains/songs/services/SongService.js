@@ -34,7 +34,7 @@ class SongService {
   }
 
   async getRandomSong() {
-    const songs = await Song.findAll();
+    const songs = await this.getAll();
     const randomIndex = Math.floor(Math.random() * songs.length);
     const song = songs[randomIndex];
 
@@ -42,20 +42,12 @@ class SongService {
   }
 
   async update(id, body) {
-    const song = await Song.findByPk(id);
-    if (!song) {
-      throw new QueryError(`Não há uma música com o ID ${id}!`);
-    }
-
+    const song = await this.getById(id);
     await song.update(body);
   }
 
   async delete(id) {
-    const song = await Song.findByPk(id);
-    if (!song) {
-      throw new QueryError(`Não há uma música com o ID ${id}!`);
-    }
-
+    const song = await this.getById(id);
     await song.destroy();
   }
 }

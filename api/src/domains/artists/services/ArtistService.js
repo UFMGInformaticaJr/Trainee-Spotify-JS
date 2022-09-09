@@ -31,25 +31,12 @@ class ArtistService {
   }
 
   async update(id, body){
-    const artist = await Artist.findByPk(id, {attributes:
-        {
-          exclude: ['createdAt', 'updatedAt'],
-        }});
-
-    if(!artist){
-      throw new QueryError(`Não há um artista com o ID ${id}!`);
-    }
-
+    const artist = await this.getById(id);
     await artist.update(body);
   }
 
   async delete(id){
-    const artist = await Artist.findByPk(id);
-
-    if(!artist){
-      throw new QueryError(`Não há um artista com o ID ${id}!`);
-    }
-
+    const artist = await this.getById(id);
     await artist.destroy();
   }
 

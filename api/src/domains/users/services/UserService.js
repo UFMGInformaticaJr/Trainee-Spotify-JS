@@ -44,7 +44,7 @@ class UserService {
   }
 
   async getById(id) {
-    const user = await User.findByPk(id, {raw: true, attributes:
+    const user = await User.findByPk(id, {attributes:
       {
         exclude: ['password', 'createdAt', 'updatedAt'],
       }});
@@ -56,11 +56,7 @@ class UserService {
   }
 
   async update(id, body, loggedUser){
-    const user = await User.findByPk(id);
-
-    if (!user) {
-      throw new QueryError(`Não há um usuário com o ID ${id}!`);
-    }
+    const user = await this.getById(id);
 
     if (loggedUser.role != userRoles.admin && loggedUser.id != id) {
       throw new NotAuthorizedError('Você não tem permissão para editar outro usuário!');
@@ -81,13 +77,8 @@ class UserService {
     if (idReqUser == id) {
       throw new PermissionError('Não é possível deletar o próprio usuário!');
     } else {
-      const user = await User.findByPk(id);
-
-      if (!user) {
-        throw new QueryError(`Não há um usuário com o ID ${id}!`);
-      } else {
-        await user.destroy();
-      }
+      const user = await this.getById(id);
+      await user.destroy();
     }
   }
 }
