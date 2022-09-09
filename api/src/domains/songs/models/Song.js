@@ -1,6 +1,7 @@
 const sequelize = require('../../../../database');
 const {DataTypes} = require('sequelize');
 const Artist = require('../../artists/models/Artist');
+const defaultImage = require('../constants/defaultImage');
 
 const Song = sequelize.define('Songs', {
   id: {
@@ -16,6 +17,7 @@ const Song = sequelize.define('Songs', {
   cover_image: {
     type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: defaultImage,
   },
   artist_id: {
     type: DataTypes.INTEGER,
