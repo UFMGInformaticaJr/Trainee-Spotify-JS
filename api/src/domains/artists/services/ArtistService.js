@@ -6,6 +6,7 @@ class ArtistService {
     const artist = {
       name: body.name,
       nationality: body.nationality,
+      image: body.image,
     };
     await Artist.create(artist);
   }

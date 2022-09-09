@@ -1,5 +1,6 @@
 const sequelize = require('../../../../database');
 const {DataTypes} = require('sequelize');
+const defaultImage = require('../constants/defaultImage');
 
 const Artist = sequelize.define('Artist', {
   id: {
@@ -15,8 +16,12 @@ const Artist = sequelize.define('Artist', {
   nationality: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: defaultImage,
   }
-
 });
 
 Artist.sync({alter: false, force: false})
