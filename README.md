@@ -23,17 +23,31 @@ Esse é o gabarito do projeto da trilha do back-end do Processo Trainee. Nesse r
    - UM usuário escuta VÁRIAS músicas, UMA música é escutada por VÁRIOS usuários (M:N)
    - UM artista canta VÁRIAS músicas, UMA música é cantada por UM artista (1:N)
 
+# Como rodar:
+   1. Clone este repositório
+      
+      git clone https://github.com/UFMGInformaticaJr/Trainee-Spotify
+   2. Vá até a pasta da api
+
+      cd Trainee-Spotify/api
+   3. Instale as dependências
+
+      npm install
+   4. Rode a api
+
+      npm start
+
 # Rotas
 ## Users
 ### Login
 Rota para fazer login no sistema, ou seja, obter o token JWT necessário para autenticação. Ele é automaticamente adicionado aos cookies do navegador.
 
-- **URL:** /users/login
+- **URL:** localhost:3030/api/users/login
 - **Método:** `POST`
 - **URL params:** Não
 - **Data params:**
    - `email=[string]`
-   - `senha=[string]`
+   - `password=[string]`
 - **Autenticação:** Não
 - **Resposta de sucesso:**
    - **Status**: 204
@@ -42,7 +56,7 @@ Rota para fazer login no sistema, ou seja, obter o token JWT necessário para au
 ### Logout
 Rota para fazer logout no sistema, ou seja, remover o token JWT necessário para autenticação.
 
-- **URL:** /users/logout
+- **URL:** localhost:3030/api/users/logout
 - **Método:** `POST`
 - **URL params:** Não
 - **Data params:** Não
@@ -54,14 +68,14 @@ Rota para fazer logout no sistema, ou seja, remover o token JWT necessário para
 ### Create
 Rota para criar usuário no banco de dados.
 
-- **URL:** /users
+- **URL:** localhost:3030/api/users
 - **Método:** `POST`
 - **URL params:** Não
 - **Data params:**
    - `name=[string]`
    - `email=[string]`
    - `password=[string]`
-   - `role=[string]`
+   - `role=[string] ('admin' ou 'user')`
 - **Autenticação:** Sim
 - **Resposta de sucesso:**
    - **Status**: 201
@@ -70,7 +84,7 @@ Rota para criar usuário no banco de dados.
 ### Get All
 Rota para retornar todos os usuários no banco de dados.
 
-- **URL:** /users
+- **URL:** localhost:3030/api/users
 - **Método:** `GET`
 - **URL params:** Não
 - **Data params:** Não
@@ -82,7 +96,7 @@ Rota para retornar todos os usuários no banco de dados.
 ### Get Usuário Atual
 Rota para retornar usuário logado.
 
-- **URL:** /users/user
+- **URL:** localhost:3030/api/users/user
 - **Método:** `GET`
 - **URL params:** Não
 - **Data params:** Não
@@ -94,7 +108,7 @@ Rota para retornar usuário logado.
 ### Get Por ID
 Rota para retornar o usuário com ID passado por parâmetro.
 
-- **URL:** /users/:id
+- **URL:** localhost:3030/api/users/:id
 - **Método:** `GET`
 - **URL params:** 
    - `id=[integer]`
@@ -107,7 +121,7 @@ Rota para retornar o usuário com ID passado por parâmetro.
 ### Update Por ID
 Rota para editar usuário com ID passado por parâmetro.
 
-- **URL:** /users/:id
+- **URL:** localhost:3030/api/users/:id
 - **Método:** `PUT`
 - **URL params:**
    - `id=[integer]`
@@ -124,7 +138,7 @@ Rota para editar usuário com ID passado por parâmetro.
 ### Deletar Por ID
 Rota para deletar usuário com ID passado por parâmetro.
 
-- **URL:** /users/:id
+- **URL:** localhost:3030/api/users/:id
 - **Método:** `DELETE`
 - **URL params:**
    - `id=[integer]`
@@ -138,7 +152,7 @@ Rota para deletar usuário com ID passado por parâmetro.
 ### Create
 Rota para criar música no banco de dados.
 
-- **URL:** /songs
+- **URL:** localhost:3030/api/songs
 - **Método:** `POST`
 - **URL params:** Não
 - **Data params:**
@@ -154,7 +168,7 @@ Rota para criar música no banco de dados.
 ### Get All
 Rota para retornar todas as músicas no banco de dados.
 
-- **URL:** /songs
+- **URL:** localhost:3030/api/songs
 - **Método:** `GET`
 - **URL params:** Não
 - **Data params:** Não
@@ -166,7 +180,7 @@ Rota para retornar todas as músicas no banco de dados.
 ### Get Por ID
 Rota para retornar a música com ID passado por parâmetro.
 
-- **URL:** /songs/:id
+- **URL:** localhost:3030/api/songs/:id
 - **Método:** `GET`
 - **URL params:** 
    - `id=[integer]`
@@ -179,7 +193,7 @@ Rota para retornar a música com ID passado por parâmetro.
 ### Random
 Rota para retornar uma música aleatória do banco de dados.
 
-- **URL:** /songs/songs/random
+- **URL:** localhost:3030/api/songs/songs/random
 - **Método:** `GET`
 - **URL params:** Não
 - **Data params:** Não
@@ -191,7 +205,7 @@ Rota para retornar uma música aleatória do banco de dados.
 ### Update Por ID
 Rota para editar música com ID passado por parâmetro.
 
-- **URL:** /songs/:id
+- **URL:** localhost:3030/api/songs/:id
 - **Método:** `PUT`
 - **URL params:**
    - `id=[integer]`
@@ -208,7 +222,7 @@ Rota para editar música com ID passado por parâmetro.
 ### Deletar Por ID
 Rota para deletar música com ID passado por parâmetro.
 
-- **URL:** /songs/:id
+- **URL:** localhost:3030/api/songs/:id
 - **Método:** `DELETE`
 - **URL params:**
    - `id=[integer]`
@@ -222,7 +236,7 @@ Rota para deletar música com ID passado por parâmetro.
 ### Create
 Rota para criar artista no banco de dados.
 
-- **URL:** /artists
+- **URL:** localhost:3030/api/artists
 - **Método:** `POST`
 - **URL params:** Não
 - **Data params:**
@@ -236,7 +250,7 @@ Rota para criar artista no banco de dados.
 ### Get All
 Rota para retornar todos os artistas no banco de dados.
 
-- **URL:** /artists
+- **URL:** localhost:3030/api/artists
 - **Método:** `GET`
 - **URL params:** Não
 - **Data params:** Não
@@ -248,7 +262,7 @@ Rota para retornar todos os artistas no banco de dados.
 ### Get Por ID
 Rota para retornar o artista com ID passado por parâmetro.
 
-- **URL:** /artists/:id
+- **URL:** localhost:3030/api/artists/:id
 - **Método:** `GET`
 - **URL params:** 
    - `id=[integer]`
@@ -261,7 +275,7 @@ Rota para retornar o artista com ID passado por parâmetro.
 ### Update Por ID
 Rota para editar artista com ID passado por parâmetro.
 
-- **URL:** /artists/:id
+- **URL:** localhost:3030/api/artists/:id
 - **Método:** `PUT`
 - **URL params:**
    - `id=[integer]`
@@ -276,7 +290,7 @@ Rota para editar artista com ID passado por parâmetro.
 ### Deletar Por ID
 Rota para deletar artista com ID passado por parâmetro.
 
-- **URL:** /artists/:id
+- **URL:** localhost:3030/api/artists/:id
 - **Método:** `DELETE`
 - **URL params:**
    - `id=[integer]`
@@ -290,7 +304,7 @@ Rota para deletar artista com ID passado por parâmetro.
 ### Create
 Rota para associar usuário com música no banco de dados. Recebemos o ID da música como parâmetro e associamos com o usuário logado.
 
-- **URL:** /users-songs/:id
+- **URL:** localhost:3030/api/users-songs/:id
 - **Método:** `POST`
 - **URL params:** 
    - `id=[integer]`
@@ -303,7 +317,7 @@ Rota para associar usuário com música no banco de dados. Recebemos o ID da mú
 ### Get All Songs By User
 Rota para retornar todas as músicas associadas a um usuário.
 
-- **URL:** /users-songs/users/:id
+- **URL:** localhost:3030/api/users-songs/users/:id
 - **Método:** `GET`
 - **URL params:**
    - `id=[integer]`
@@ -316,7 +330,7 @@ Rota para retornar todas as músicas associadas a um usuário.
 ### Get All Users By Song
 Rota para retornar todos os usuários associados a uma música.
 
-- **URL:** /users-songs/songs/:id
+- **URL:** localhost:3030/api/users-songs/songs/:id
 - **Método:** `GET`
 - **URL params:** 
    - `id=[integer]`
