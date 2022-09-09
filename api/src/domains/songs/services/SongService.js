@@ -41,6 +41,20 @@ class SongService {
     return song;
   }
 
+  async getSongsByArtist(artistId) {
+    const songs = await Song.findAll({
+      where: {
+        artist_id: artistId
+      }
+    });
+
+    if (!songs) {
+      throw new QueryError(`Não há nenhuma música do artista com o ID ${artistId}!`);
+    }
+
+    return songs;
+  }
+
   async update(id, body) {
     const song = await this.getById(id);
     await song.update(body);
