@@ -12,12 +12,13 @@ Esse é o gabarito do projeto da trilha do back-end do Processo Trainee. Nesse r
          ID: INTEGER, PK
          Foto: STRING
          Titulo: STRING
-         Artista: INTEGER, FK
+         ArtistaID: INTEGER, FK
          Categoria: STRING
       ARTISTA:
          ID: INTEGER, PK
          Nome: STRING
          Nacionalidade: STRING
+         Imagem: STRING
 
 ## Relacionamentos
    - UM usuário escuta VÁRIAS músicas, UMA música é escutada por VÁRIOS usuários (M:N)
