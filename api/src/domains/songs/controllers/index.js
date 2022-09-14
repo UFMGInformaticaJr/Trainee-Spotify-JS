@@ -2,7 +2,7 @@ const router = require('express').Router();
 const SongService = require('../services/SongService');
 const {jwtMiddleware, checkRole } = require('../../../middlewares/auth-middlewares');
 const statusCodes = require('../../../../constants/statusCodes.js');
-const userRoles = require('../../../../constants/userRoles.js');
+const userRoles = require('../../users/constants/userRoles.js');
 
 router.post('/',
   jwtMiddleware,
@@ -66,7 +66,6 @@ router.get('/artist/:id',
 
 router.put('/:id',
   jwtMiddleware,
-  checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
       await SongService.update(req.params.id, req.body);

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const ArtistService = require('../services/ArtistService.js');
 const {jwtMiddleware, checkRole } = require('../../../middlewares/auth-middlewares.js');
-const userRoles = require('../../../../constants/userRoles.js');
+const userRoles = require('../../users/constants/userRoles.js');
 const statusCodes = require('../../../../constants/statusCodes.js');
 
 router.post('/',
@@ -30,7 +30,6 @@ router.get('/',
 
 router.get('/:id',
   jwtMiddleware,
-  checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
       const artist = await ArtistService.getById(req.params.id);

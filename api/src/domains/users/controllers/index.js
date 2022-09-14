@@ -4,7 +4,7 @@ const {loginMiddleware,
   jwtMiddleware,
   checkRole,
   notLoggedIn} = require('../../../middlewares/auth-middlewares.js');
-const userRoles = require('../../../../constants/userRoles.js');
+const userRoles = require('../../users/constants/userRoles.js');
 const statusCodes = require('../../../../constants/statusCodes.js');
 
 router.post('/login', notLoggedIn(), loginMiddleware);
@@ -23,7 +23,6 @@ router.post('/logout',
 );
 
 router.post('/',
-  jwtMiddleware,
   async (req, res, next) => {
     try {
       await UserService.create(req.body);
@@ -64,7 +63,6 @@ router.get('/user',
 
 router.get('/:id',
   jwtMiddleware,
-  checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
       const user = await UserService.getById(req.params.id);

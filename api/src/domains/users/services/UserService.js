@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User.js');
-const userRoles = require('../../../../constants/userRoles.js');
+const userRoles = require('../constants/userRoles.js');
 const NotAuthorizedError = require('../../../../errors/NotAuthorizedError.js');
 const PermissionError = require('../../../../errors/PermissionError.js');
 const QueryError = require('../../../../errors/QueryError.js');
@@ -12,6 +12,10 @@ class UserService {
   }
 
   async create(body) {
+    if (body.role == userRoles.admin) {
+      throw new PermissionError('Não é possível criar um usuário com cargo de administrador!');
+    }
+
     const user = await User.findOne({where: {email: body.email}});
     if (user) {
       throw new QueryError('E-mail já cadastrado!');
