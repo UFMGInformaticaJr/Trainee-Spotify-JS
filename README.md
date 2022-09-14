@@ -18,7 +18,7 @@ Esse é o gabarito do projeto da trilha do back-end do Processo Trainee. Nesse r
          ID: INTEGER, PK
          Nome: STRING
          Nacionalidade: STRING
-         Imagem: STRING
+         Foto: STRING
 
 ## Relacionamentos
    - UM usuário escuta VÁRIAS músicas, UMA música é escutada por VÁRIOS usuários (M:N)
