@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const UserService = require('../services/UserService');
 const {loginMiddleware,
-  jwtMiddleware,
+  verifyJWT,
   checkRole,
   notLoggedIn} = require('../../../middlewares/auth-middlewares.js');
 const userRoles = require('../../users/constants/userRoles.js');
@@ -10,10 +10,9 @@ const statusCodes = require('../../../../constants/statusCodes.js');
 router.post('/login', notLoggedIn(), loginMiddleware);
 
 router.post('/logout',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try {
-      // Aqui deveríamos adicionar o cookie em uma blacklist
       res.clearCookie('jwt');
       res.status(statusCodes.noContent).end();
     } catch (error) {
@@ -34,7 +33,7 @@ router.post('/',
 );
 
 router.get('/',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try {
       const users = await UserService.getAll();
@@ -47,7 +46,7 @@ router.get('/',
 
 
 router.get('/user',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try {
       if (req.user) {
@@ -62,7 +61,7 @@ router.get('/user',
 
 
 router.get('/:id',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try {
       const user = await UserService.getById(req.params.id);
@@ -76,7 +75,7 @@ router.get('/:id',
 
 
 router.put('/:id',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try {
       await UserService.update(req.params.id, req.body, req.user);
@@ -88,7 +87,7 @@ router.put('/:id',
 );
 
 router.delete('/:id',
-  jwtMiddleware,
+  verifyJWT,
   checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {

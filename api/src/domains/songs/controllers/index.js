@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const SongService = require('../services/SongService');
-const {jwtMiddleware, checkRole } = require('../../../middlewares/auth-middlewares');
+const {verifyJWT, checkRole } = require('../../../middlewares/auth-middlewares');
 const statusCodes = require('../../../../constants/statusCodes.js');
 const userRoles = require('../../users/constants/userRoles.js');
 
 router.post('/',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try {
       await SongService.create(req.body);
@@ -17,7 +17,7 @@ router.post('/',
 );
 
 router.get('/',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try{
       const songs = await SongService.getAll();
@@ -29,7 +29,7 @@ router.get('/',
 );
 
 router.get('/:id',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try {
       const song = await SongService.getById(req.params.id);
@@ -41,7 +41,7 @@ router.get('/:id',
 );
 
 router.get('/song/random',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try{
       const song = await SongService.getRandomSong();
@@ -53,7 +53,7 @@ router.get('/song/random',
 );
 
 router.get('/artist/:id',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try{
       const song = await SongService.getSongsByArtist(req.params.id);
@@ -65,7 +65,7 @@ router.get('/artist/:id',
 );
 
 router.put('/:id',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try {
       await SongService.update(req.params.id, req.body);
@@ -77,7 +77,7 @@ router.put('/:id',
 );
 
 router.delete('/:id',
-  jwtMiddleware,
+  verifyJWT,
   checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {

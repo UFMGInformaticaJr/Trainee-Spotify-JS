@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const ArtistService = require('../services/ArtistService.js');
-const {jwtMiddleware, checkRole } = require('../../../middlewares/auth-middlewares.js');
+const {verifyJWT, checkRole } = require('../../../middlewares/auth-middlewares.js');
 const userRoles = require('../../users/constants/userRoles.js');
 const statusCodes = require('../../../../constants/statusCodes.js');
 
 router.post('/',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try {
       await ArtistService.create(req.body);
@@ -17,7 +17,7 @@ router.post('/',
 );
 
 router.get('/',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try{
       const artists = await ArtistService.getAll();
@@ -29,7 +29,7 @@ router.get('/',
 );
 
 router.get('/:id',
-  jwtMiddleware,
+  verifyJWT,
   async (req, res, next) => {
     try {
       const artist = await ArtistService.getById(req.params.id);
@@ -42,7 +42,7 @@ router.get('/:id',
 );
 
 router.put('/:id',
-  jwtMiddleware,
+  verifyJWT,
   checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {
@@ -56,7 +56,7 @@ router.put('/:id',
 );
 
 router.delete('/:id',
-  jwtMiddleware,
+  verifyJWT,
   checkRole([userRoles.admin]),
   async (req, res, next) => {
     try {

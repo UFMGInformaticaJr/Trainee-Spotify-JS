@@ -4,7 +4,7 @@ const User = require('../domains/users/models/User.js');
 const PermissionError = require('../../errors/PermissionError.js');
 const statusCodes = require('../../constants/statusCodes.js');
 
-function signJWT(user, res) {
+function generateJWT(user, res) {
   const body = {
     id: user.id,
     name: user.name,
@@ -19,8 +19,6 @@ function signJWT(user, res) {
     httpOnly: true,
     secure: process.env.NODE_ENV !== 'development',
   });
-
-
 }
 
 function cookieExtractor(req) {
@@ -45,15 +43,13 @@ async function loginMiddleware(req, res, next) {
       }
     }
 
-    signJWT(user, res);
+    generateJWT(user, res);
 
     res.status(statusCodes.noContent).end();
   } catch (error) {
     next(error);
   }
 }
-
-
 
 function notLoggedIn(errorMessage) {
   return (req, res, next) => {
@@ -80,12 +76,10 @@ function notLoggedIn(errorMessage) {
   };
 }
 
-function jwtMiddleware(req, res, next) {
+function verifyJWT(req, res, next) {
   try {
     const token = cookieExtractor(req);
     if (token) {
-      // Aqui deveríamos checar se o token está na blacklist e se sim, retornar um erro.
-
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
       req.user = decoded.user;
     }
@@ -114,6 +108,6 @@ const checkRole = (roles) => {
 module.exports = {
   loginMiddleware,
   notLoggedIn,
-  jwtMiddleware,
+  verifyJWT,
   checkRole,
 };
