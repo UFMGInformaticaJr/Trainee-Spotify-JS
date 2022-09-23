@@ -51,29 +51,20 @@ async function loginMiddleware(req, res, next) {
   }
 }
 
-function notLoggedIn(errorMessage) {
-  return (req, res, next) => {
-    try {
-      const token = cookieExtractor(req);
+function notLoggedIn(req, res, next) {
+  try {
+    const token = cookieExtractor(req);
 
-      if (token) {
-        jwt.verify(
-          token,
-          process.env.SECRET_KEY,
-          (err) => {
-            if (!(err instanceof jwt.TokenExpiredError)) {
-              throw new PermissionError(errorMessage ||
-                'Você já está logado no sistema!');
-            }
-          },
-        );
+    if (token) {
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      if (decoded) {
+        throw new PermissionError('Você já está logado no sistema!');
       }
-
-      next();
-    } catch (error) {
-      next(error);
     }
-  };
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 
 function verifyJWT(req, res, next) {

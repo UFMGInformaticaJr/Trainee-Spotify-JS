@@ -7,7 +7,7 @@ const {loginMiddleware,
 const userRoles = require('../../users/constants/userRoles.js');
 const statusCodes = require('../../../../constants/statusCodes.js');
 
-router.post('/login', notLoggedIn(), loginMiddleware);
+router.post('/login', notLoggedIn, loginMiddleware);
 
 router.post('/logout',
   verifyJWT,
