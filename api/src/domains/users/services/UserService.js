@@ -8,6 +8,7 @@ const QueryError = require('../../../../errors/QueryError.js');
 class UserService {
   async encryptPassword(user) {
     const saltRounds = 10;
+    console.log(user.password);
     user.password = await bcrypt.hash(user.password, saltRounds);
   }
 
@@ -70,8 +71,8 @@ class UserService {
       throw new NotAuthorizedError('Você não tem permissão para editar seu cargo');
     }
 
-    if (body.senha) {
-      this.encryptPassword(user);
+    if (body.password) {
+      await this.encryptPassword(body);
     }
 
     await user.update(body);
