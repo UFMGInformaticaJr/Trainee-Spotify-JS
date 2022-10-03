@@ -6,9 +6,10 @@ const PermissionError = require('../../../../errors/PermissionError.js');
 const QueryError = require('../../../../errors/QueryError.js');
 
 class UserService {
-  async encryptPassword(user) {
+  async encryptPassword(password) {
     const saltRounds = 10;
-    user.password = await bcrypt.hash(user.password, saltRounds);
+    const encryptedPassword = await bcrypt.hash(password, saltRounds);
+    return encryptedPassword;
   }
 
   async create(body) {
@@ -27,7 +28,7 @@ class UserService {
         role: body.role,
       };
 
-      await this.encryptPassword(user);
+      user.password = await this.encryptPassword(body.password);
 
       await User.create(user);
     }
@@ -70,8 +71,8 @@ class UserService {
       throw new NotAuthorizedError('Você não tem permissão para editar seu cargo');
     }
 
-    if (body.senha) {
-      this.encryptPassword(user);
+    if (body.password) {
+      body.password = await this.encryptPassword(body.password);
     }
 
     await user.update(body);
