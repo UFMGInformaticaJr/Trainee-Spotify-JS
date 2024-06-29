@@ -355,3 +355,18 @@ Rota para retornar todos os usuários associados a uma música.
 - **Resposta de sucesso:**
    - **Status**: 200
    - **Conteúdo**: `[{ id, name, email, role }]`
+
+### Delete
+Rota para deletar a relação entre usuário e música no banco de dados. Recebemos o ID da música como parâmetro e associamos com o usuário logado.
+
+- **URL:** localhost:3030/api/users-songs/:id
+- **Método:** `DELETE`
+- **URL params:**
+   - `id=[integer]`
+- **Data params:** Não
+- **Autenticação:** Sim
+- **Resposta de sucesso:**
+   - **Status**: 204
+   - **Conteúdo**: Vazio
+
+   

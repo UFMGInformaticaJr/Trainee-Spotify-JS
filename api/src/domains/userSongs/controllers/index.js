@@ -15,6 +15,18 @@ router.post('/:id',
   },
 );
 
+router.delete('/:id',
+  verifyJWT,
+  async (req, res, next) => {
+	try {
+      await UserSongService.delete(req.user.id, req.params.id);
+      res.status(statusCodes.noContent).end();
+	  } catch (error) {
+      next(error);
+	}
+  },
+);
+
 router.get('/users/:id',
   verifyJWT,
   async (req, res, next) => {
@@ -37,18 +49,6 @@ router.get('/songs/:id',
       next(error);
     }
   },
-);
-
-router.delete('/songs/:id',
-  verifyJWT,
-  async (req, res, next) => {
-    try {
-      await SongService.delete(req.params.id);
-      res.status(statusCodes.noContent).end();
-    } catch (err) {
-      next(err);
-    }
-  }
 );
 
 module.exports = router;
